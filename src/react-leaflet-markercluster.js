@@ -62,6 +62,10 @@ export default class MarkerClusterGroup extends LayerGroup {
       ? this.removeMarkersWithSameCoordinates(markers)
       : markers;
 
+    let tooltipOptions = this.props.tooltipOptions
+      ? Object.assign({}, this.props.tooltipOptions)
+      : {};
+
     let leafletMarkers = [];
 
     filteredMarkers.forEach((marker) => {
@@ -75,7 +79,8 @@ export default class MarkerClusterGroup extends LayerGroup {
       );
 
       marker.popup && leafletMarker.bindPopup(marker.popup);
-      marker.tooltip && leafletMarker.bindTooltip(marker.tooltip);
+      marker.tooltip && leafletMarker.bindTooltip(marker.tooltip,
+        tooltipOptions);
 
       leafletMarkers.push(leafletMarker);
     });
@@ -164,6 +169,8 @@ MarkerClusterGroup.propTypes = {
   markerOptions: PropTypes.object,
   // Options that are supporting by react-leaflet-markercluster wrapper
   wrapperOptions: PropTypes.object,
+  // Tooltip options
+  tooltipOptions: PropTypes.object,
   // Events
   onMarkerClick: PropTypes.func,
   onClusterClick: PropTypes.func,
